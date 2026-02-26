@@ -5,7 +5,7 @@ const taskList = document.getElementById('task-list');
 
 //Load tasks from LocalStorage
 window.onload= () => {
-    const saveTasks = JSON.parse(localStorage.getItem('tasks')) ||[];
+    const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
     savedTasks.forEach(task => createTaskElement(task.text, task.completed));
 
 };
@@ -15,7 +15,7 @@ function saveTasks() {
     const tasks = [];
     document.querySelectorAll('#task-list li').forEach(li => {
         tasks.push({
-            text: li.querySelectorAll('span').textContent,
+            text: li.querySelector('span').textContent,
             completed: li.classList.contains('completed')
             });
         });
@@ -30,7 +30,7 @@ function saveTasks() {
 
         //Mark complete on click
         span.onclick = () => {
-            li.classList.toggle('complete');
+            li.classList.toggle('completed');
             saveTasks();
         };
     
@@ -58,3 +58,8 @@ function saveTasks() {
             newTaskInput.value = '';
         }
     };
+
+    // Enter key support
+    newTaskInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addBtn.click();
+    });
